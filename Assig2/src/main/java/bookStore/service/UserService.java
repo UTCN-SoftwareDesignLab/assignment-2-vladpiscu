@@ -11,5 +11,6 @@ public interface UserService {
     User save(UserDto user);
     User update(UserDto user);
     void remove(UserDto user);
+    void remove(int id);
     void removeAll();
 }

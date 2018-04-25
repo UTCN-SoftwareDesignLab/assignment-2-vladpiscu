@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Books</title>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <style>
+        td {
+            width: 200px;
+        }
+
+        th {
+            text-align: left;
+        }
+
+        table, th, td {
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+<a th:href="@{/logout}">Logout</a>
+
+<h1>Books:</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genre</th>
+        <th>Quantity</th>
+        <th>Price</th>
+    </tr>
+    </thead>
+    <tr th:each="book : ${ books }">
+            <td th:text="${ book.id }" >ID</td>
+            <td th:text="${ book.title }">First Name</td>
+            <td th:text="${ book.author.name }">Last Name</td>
+            <td th:text="${ book.genre.genre }">Last Name</td>
+            <td th:text="${ book.quantity }">Last Name</td>
+            <td th:text="${ book.price }">Last Name</td>
+    </tr>
+    <tbody>
+
+    </tbody>
+</table>
+
+
+<hr/>
+
+
+<form th:action="@{/createBook}" th:object="${newBook}" method="post">
+
+    <legend><b>Add book</b></legend>
+    Title: <input type="text" id="title" th:field="${newBook.title}"/>
+    Author:
+        <select name="author" id="author" >
+            <option th:each="author : ${authors}" th:field="${newBook.author}" th:value="${author.id}" th:text="${author.name}"></option>
+        </select>
+    Genre:
+        <select name="genre" id="genre" >
+            <option th:each="genre : ${genres}" th:field="${newBook.genre}" th:value="${genre.id}" th:text="${genre.genre}"></option>
+        </select>
+    Quantity: <input type="text" id="quantity" th:field="${newBook.quantity}"/>
+    Price: <input type="text" id="price" th:field="${newBook.price}"/>
+    <input type="submit" class="button" name="create" value="Create" />
+    <br/>
+    <a th:href="@{/create}">Create Author</a>
+    <br/>
+    <table th:if="${#fields.hasErrors()}">
+        <thead>
+        <tr>
+            <th>Errors</th>
+        </tr>
+        </thead>
+        <tr th:each="error : ${ errors }">
+            <td th:text="${ error }">Error</td>
+        </tr>
+        <tbody>
+
+        </tbody>
+    </table>
+</form>
+
+<hr/>
+
+<form th:action="@{/manipulateBook}" th:object="${bookDto}" method="post">
+    <legend><b>Update or delete book</b></legend>
+    Id:
+    <select name="id" id="id" >
+        <option th:each="book : ${books}" th:field="${bookDto.id}" th:value="${book.id}" th:text="${book.id}"></option>
+    </select>
+    Title: <input type="text" id="title" th:field="${bookDto.title}"/>
+    Author:
+    <select name="author" id="author" >
+        <option th:each="author : ${authors}" th:field="${bookDto.author}" th:value="${author.id}" th:text="${author.name}"></option>
+    </select>
+    Genre:
+    <select name="genre" id="genre" >
+        <option th:each="genre : ${genres}" th:field="${bookDto.genre}" th:value="${genre.id}" th:text="${genre.genre}"></option>
+    </select>
+    Quantity: <input type="text" id="quantity" th:field="${bookDto.quantity}"/>
+    Price: <input type="text" id="price" th:field="${bookDto.price}"/>
+    <input type="submit" class="button" name="action" value="update" />
+    <input type="submit" class="button" name="action" value="delete" />
+    <table th:if="${#fields.hasErrors()}">
+        <thead>
+        <tr>
+            <th>Errors</th>
+        </tr>
+        </thead>
+        <tr th:each="error : ${ errors }">
+            <td th:text="${ error }">Error</td>
+        </tr>
+        <tbody>
+
+        </tbody>
+    </table>
+</form>
+
+
+
+
+</body>
+</html>

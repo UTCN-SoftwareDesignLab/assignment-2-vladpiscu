@@ -80,6 +80,11 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    public void remove(int id) {
+        bookRepository.deleteById(id);
+    }
+
+    @Override
     public void removeAll() {
         bookRepository.deleteAll();
     }

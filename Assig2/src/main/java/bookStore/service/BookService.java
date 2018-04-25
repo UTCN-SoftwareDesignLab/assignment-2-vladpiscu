@@ -15,5 +15,6 @@ public interface BookService {
     Book create(BookDto book);
     Book update(BookDto book);
     void remove(BookDto book);
+    void remove(int id);
     void removeAll();
 }

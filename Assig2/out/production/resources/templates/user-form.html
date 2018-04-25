@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Users</title>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <style>
+        td {
+            width: 200px;
+        }
+
+        th {
+            text-align: left;
+        }
+
+        table, th, td {
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+<a th:href="@{/logout}">Logout</a>
+
+<h1>Books:</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Username</th>
+        <th>Role</th>
+    </tr>
+    </thead>
+    <tr th:each="user : ${ users }">
+        <td th:text="${ user.id }" >ID</td>
+        <td th:text="${ user.username }">Username</td>
+        <td th:text="${ user.role }">Role</td>
+    </tr>
+    <tbody>
+
+    </tbody>
+</table>
+
+
+<hr/>
+
+
+<form th:action="@{/create-user}" th:object="${newUser}" method="post">
+
+    <legend><b>Add user</b></legend>
+    Username: <input type="text" id="username" th:field="${newUser.username}"/>
+    Password: <input type="text" id="password" th:field="${newUser.password}"/>
+    <select name="role" id="role" >
+        <option th:each="role : ${roles}" th:field="${newUser.role}" th:value="${role}" th:text="${role}"></option>
+    </select>
+    <input type="submit" class="button" name="create" value="Create" />
+</form>
+
+<hr/>
+
+<form th:action="@{/manipulateUser}" th:object="${userDto}" method="post">
+    <legend><b>Update or delete user</b></legend>
+    Id:
+    <select name="id" id="id" >
+        <option th:each="user : ${users}" th:field="${userDto.id}" th:value="${user.id}" th:text="${user.id}"></option>
+    </select>
+    Username: <input type="text" id="username" th:field="${userDto.username}"/>
+    Password: <input type="text" id="password" th:field="${userDto.password}"/>
+    <select name="role" id="role" >
+        <option th:each="role : ${roles}" th:field="${userDto.role}" th:value="${role}" th:text="${role}"></option>
+    </select>
+    <input type="submit" class="button" name="action" value="update" />
+    <input type="submit" class="button" name="action" value="delete" />
+    <table th:if="${#fields.hasErrors()}">
+        <thead>
+        <tr>
+            <th>Errors</th>
+        </tr>
+        </thead>
+        <tr th:each="error : ${ errors }">
+            <td th:text="${ error }">Error</td>
+        </tr>
+        <tbody>
+
+        </tbody>
+    </table>
+</form>
+
+
+
+
+</body>
+</html>
