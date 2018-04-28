@@ -10,6 +10,7 @@ import bookStore.repository.AuthorRepository;
 import bookStore.repository.BookRepository;
 import bookStore.repository.GenreRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,19 +33,25 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public List<Book> findByGenre(String genre) {
-        Genre bookGenre = genreRepository.findByGenre(genre);
-        return bookRepository.findAllByGenre(bookGenre);
+        List<Genre> bookGenres = genreRepository.findByGenreContaining(genre);
+        List<Book> books = new ArrayList<>();
+        for(Genre bookGenre : bookGenres)
+            books.addAll(bookRepository.findAllByGenre(bookGenre));
+        return books;
     }
 
     @Override
     public List<Book> findByTitle(String title) {
-        return bookRepository.findAllByTitle(title);
+        return bookRepository.findAllByTitleContaining(title);
     }
 
     @Override
     public List<Book> findByAuthor(String author) {
-        Author bookAuthor = authorRepository.findByName(author);
-        return bookRepository.findAllByAuthor(bookAuthor);
+        List<Author> bookAuthors = authorRepository.findByNameContaining(author);
+        List<Book> books = new ArrayList<>();
+        for(Author bookAuthor : bookAuthors)
+            books.addAll(bookRepository.findAllByAuthor(bookAuthor));
+        return books;
     }
 
     @Override

@@ -26,6 +26,6 @@ public class AuthorController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@ModelAttribute @Valid AuthorDto authorDto) {
         authorService.create(authorDto.getName());
-        return "redirect:/";
+        return "redirect:/crud-books";
     }
 }

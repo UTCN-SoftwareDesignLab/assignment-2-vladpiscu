@@ -53,22 +53,16 @@
 <hr/>
 
 <form th:action="@{/operBook}" th:object="${searchWord}" method="post">
-    <legend><b>Update or delete book</b></legend>
-    Title: <input type="text" id="title" th:field="${searchWord}"/>
-    Author:
-    <select name="author" id="author" >
-        <option th:each="author : ${authors}" th:field="${searchWord}" th:value="${author.id}" th:text="${author.name}"></option>
-    </select>
-    Genre:
-    <select name="genre" id="genre" >
-        <option th:each="genre : ${genres}" th:field="${searchWord}" th:value="${genre.id}" th:text="${genre.genre}"></option>
-    </select>
+    <legend><b>Find book by title, author or genre:</b></legend>
+    Search word: <input type="text" id="title" name="searchWord"/>
     <input type="submit" class="button" name="action" value="Search by title" />
     <input type="submit" class="button" name="action" value="Search by author" />
     <input type="submit" class="button" name="action" value="Search by genre" />
 </form>
 
-<form th:action="@{/operBook}" th:object="${bookDto}" method="post">
+<br/>
+
+<form th:action="@{/sellBook}" th:object="${bookDto}" method="post">
     Id:
     <select name="id" id="id" >
         <option th:each="book : ${books}" th:field="${bookDto.id}" th:value="${book.id}" th:text="${book.id}"></option>

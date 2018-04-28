@@ -16,9 +16,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import bookStore.service.AuthorService;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -40,17 +44,37 @@ public class BookController {
 
     @RequestMapping("/operations-books")
     String operationsBooks(Model model) {
-        addAttributes(model);
+        model.addAttribute("bookDto", new BookDto());
         return "book-operations";
     }
 
-    //not done yet
     @RequestMapping(value = "/operBook", params="action=Search by title", method = RequestMethod.POST)
-    public String searchByTitle(@ModelAttribute("searchWord") @Valid String title, BindingResult bindingResult, Model model){
-        bookService.findByTitle(title);
-        return "redirect:/book-operations";
+    public String searchByTitle(@RequestParam Map<String, String> searchWord, Model model){
+        model.addAttribute("books", bookService.findByTitle(searchWord.get("searchWord")));
+        model.addAttribute("bookDto", new BookDto());
+        return "book-operations";
     }
 
+    @RequestMapping(value = "/operBook", params="action=Search by author", method = RequestMethod.POST)
+    public String searchByAuthor(@RequestParam Map<String, String> searchWord, Model model){
+        model.addAttribute("books",bookService.findByAuthor(searchWord.get("searchWord")));
+        model.addAttribute("bookDto", new BookDto());
+        return "book-operations";
+    }
+
+    @RequestMapping(value = "/operBook", params="action=Search by genre", method = RequestMethod.POST)
+    public String searchByGenre(@RequestParam Map<String, String> searchWord, Model model){
+        model.addAttribute("books", bookService.findByGenre(searchWord.get("searchWord")));
+        model.addAttribute("bookDto", new BookDto());
+        return "book-operations";
+    }
+
+    @RequestMapping(value = "/sellBook", params="action=Search by genre", method = RequestMethod.POST)
+    public String sellBook(@RequestParam Map<String, Integer> searchWord, @ModelAttribute("bookDto") BookDto bookDto,  Model model){
+        bookService.sellBook(bookDto, searchWord.get("quantity"));
+        model.addAttribute("bookDto", new BookDto());
+        return "book-operations";
+    }
 
 
     @RequestMapping(value = "/createBook", method = RequestMethod.POST)
