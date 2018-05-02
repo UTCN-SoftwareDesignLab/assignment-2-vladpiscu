@@ -8,9 +8,9 @@ import java.util.List;
 public interface UserService {
     List<User> findAll();
     User findByUsernameAndPassword(String username, String password);
-    User save(UserDto user);
-    User update(UserDto user);
-    void remove(UserDto user);
+    User save(User user);
+    User update(User user);
+    void remove(User user);
     void remove(int id);
     void removeAll();
 }

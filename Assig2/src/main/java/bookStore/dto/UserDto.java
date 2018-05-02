@@ -19,6 +19,16 @@ public class UserDto {
 
     private String role;
 
+    public UserDto() {
+    }
+
+    public UserDto(int id, @NotNull(message = "Username cannot be null.") @Pattern(regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$", message = "Invalid email") String username, @NotNull(message = "Password cannot be null.") @Pattern(regexp = "^.*[^A-Za-z0-9]*.$", message = "Password must contain at least one special character.") @Pattern(regexp = "^.*[0-9].*$", message = "Password must contain at least one digit.") @Size(min = 8, message = "Password too short.") String password, String role) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
     public int getId() {
         return id;
     }

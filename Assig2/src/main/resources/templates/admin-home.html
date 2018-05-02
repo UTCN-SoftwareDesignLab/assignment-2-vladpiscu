@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<a th:href="@{/logout}">Logout</a>
+
+<hr/>
+
+
+<form th:action="@{/admin-action}" th:object="${newBook}" method="post">
+     <input type="submit" class="button" name="action" value="Crud books" />
+     <input type="submit" class="button" name="action" value="Crud users" />
+</form>
+
+</body>
+</html>

@@ -1,13 +1,16 @@
 package bookStore;
 
+import bookStore.Mapper.UserMapper;
 import bookStore.dto.BookDto;
 import bookStore.dto.UserDto;
+import bookStore.entity.User;
 import bookStore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +23,8 @@ import java.util.stream.Collectors;
 public class AdminController {
     @Autowired
     UserService userService;
+    @Autowired
+    UserMapper userMapper;
 
     @RequestMapping("/crud-users")
     String home(Model model) {
@@ -30,19 +35,19 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/create-user", method = RequestMethod.POST)
-    public String create(@ModelAttribute("newUser") UserDto userDto, BindingResult bindingResult, Model model){
+    public String create(@ModelAttribute("newUser") @Valid UserDto userDto, BindingResult bindingResult, Model model){
         if(bindingResult.hasErrors()) {
             model.addAttribute("userDto", new UserDto());
             addAttributes(model);
             model.addAttribute("errors", bindingResult.getAllErrors().stream().map(r -> r.getDefaultMessage()).collect(Collectors.toList()));
             return "user-form";
         }
-        userService.save(userDto);
+        userService.save(userMapper.toUser(userDto));
         return "redirect:/crud-users";
     }
 
     @RequestMapping(value = "/manipulateUser", params="action=update", method = RequestMethod.POST)
-    public String update(@ModelAttribute("userDto") UserDto selectedUser, BindingResult bindingResult, Model model){
+    public String update(@ModelAttribute("userDto") @Valid UserDto selectedUser, BindingResult bindingResult, Model model){
         if(selectedUser.getId() == 0){
             bindingResult.addError(new ObjectError("userDto", "You can't update a user that doesn't exist."));
         }
@@ -52,7 +57,9 @@ public class AdminController {
             model.addAttribute("errors", bindingResult.getAllErrors().stream().map(r -> r.getDefaultMessage()).collect(Collectors.toList()));
             return "user-form";
         }
-        userService.update(selectedUser);
+        User user = userMapper.toUser(selectedUser);
+        user.setId(selectedUser.getId());
+        userService.update(user);
         return "redirect:/crud-users";
     }
 
@@ -71,7 +78,7 @@ public class AdminController {
 
     private void addAttributes(Model model){
         model.addAttribute("users", userService.findAll());
-        String[] roles = {"Administrator", "User"};
+        String[] roles = {"admin", "user"};
         model.addAttribute("roles", roles);
     }
 }

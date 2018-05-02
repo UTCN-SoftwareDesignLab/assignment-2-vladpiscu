@@ -10,11 +10,12 @@ public interface BookService {
     List<Book> findByGenre(String genre);
     List<Book> findByTitle(String title);
     List<Book> findByAuthor(String author);
-    boolean sellBook(BookDto book, int quantity);
+    Book findById(int id);
+    boolean sellBook(Book book, int quantity);
 
-    Book create(BookDto book);
-    Book update(BookDto book);
-    void remove(BookDto book);
+    Book create(Book book);
+    Book update(Book book);
+    void remove(Book book);
     void remove(int id);
     void removeAll();
 }

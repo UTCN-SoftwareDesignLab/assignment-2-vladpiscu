@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<a th:href="@{/logout}">Logout</a>
+
+<hr/>
+
+
+<form th:action="@{/select-action}" th:object="${newBook}" method="post">
+     <input type="submit" class="button" name="action" value="Book operations" />
+</form>
+
+</body>
+</html>

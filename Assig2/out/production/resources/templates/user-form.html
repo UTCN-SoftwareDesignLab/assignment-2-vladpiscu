@@ -21,7 +21,7 @@
     </style>
 </head>
 <body>
-<a th:href="@{/logout}">Logout</a>
+<a th:href="@{/home-admins}">Back</a>
 
 <h1>Books:</h1>
 
@@ -56,6 +56,19 @@
         <option th:each="role : ${roles}" th:field="${newUser.role}" th:value="${role}" th:text="${role}"></option>
     </select>
     <input type="submit" class="button" name="create" value="Create" />
+    <table th:if="${#fields.hasErrors()}">
+            <thead>
+            <tr>
+                <th>Errors</th>
+            </tr>
+            </thead>
+            <tr th:each="error : ${ errors }">
+                <td th:text="${ error }">Error</td>
+            </tr>
+            <tbody>
+
+            </tbody>
+        </table>
 </form>
 
 <hr/>

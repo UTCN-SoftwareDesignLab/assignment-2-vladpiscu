@@ -7,6 +7,8 @@
     <title>Create Author</title>
 </head>
 <body>
+<a th:href="@{/crud-books}">Back</a>
+
 <form th:action="@{/create}" th:object="${author}" method="post">
     Name: <input type="text" name="name" th:field="${author.name}"/>
     <input type="submit" class="button" name="create" value="Create"/>

@@ -55,8 +55,13 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public boolean sellBook(BookDto bookDto, int quantity) {
-        Book book = getBook(bookDto);
+    public Book findById(int id) {
+        return bookRepository.findById(id);
+    }
+
+    @Override
+    public boolean sellBook(Book book, int quantity) {
+
         if(book.getQuantity() >= quantity){
             book.setQuantity(book.getQuantity() - quantity);
             bookRepository.save(book);
@@ -66,24 +71,21 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public Book create(BookDto book) {
-        Book b = getBook(book);
-        return bookRepository.save(b);
+    public Book create(Book book) {
+        return bookRepository.save(book);
     }
 
     @Override
-    public Book update(BookDto book) {
-        Book b = getBook(book);
-        b.setId(book.getId());
-        return bookRepository.save(b);
+    public Book update(Book book) {
+        book.setId(book.getId());
+        return bookRepository.save(book);
     }
 
 
 
     @Override
-    public void remove(BookDto book) {
-        Book b = getBook(book);
-        bookRepository.delete(b);
+    public void remove(Book book) {
+        bookRepository.delete(book);
     }
 
     @Override
@@ -96,7 +98,5 @@ public class BookServiceImpl implements BookService{
         bookRepository.deleteAll();
     }
 
-    private Book getBook(BookDto book) {
-        return new Book(book.getTitle(), Integer.parseInt(book.getQuantity()), Double.parseDouble(book.getPrice()), book.getAuthor(), book.getGenre());
-    }
+
 }

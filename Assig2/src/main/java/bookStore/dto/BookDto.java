@@ -18,11 +18,25 @@ public class BookDto {
     private Author author;
     private Genre genre;
 
-    @Pattern(regexp = "^[0-9]+$")
+    @Pattern(regexp = "^[0-9]+$", message = "Quantity must be a natural number.")
     private String quantity;
 
-    @Pattern(regexp = "^[0-9]+\\.?[0-9]*$")
+    @Pattern(regexp = "^[0-9]+\\.?[0-9]*$", message = "The price should be a positive real number.")
     private String price;
+
+    public BookDto() {
+    }
+
+    public BookDto(int id, @NotNull(message = "Title cannot be null.") @Size(min = 1, message = "Title cannot be empty.") String title, Author author,
+                   Genre genre, @Pattern(regexp = "^[0-9]+$" , message = "Quantity must be a natural number.") String quantity,
+                   @Pattern(regexp = "^[0-9]+\\.?[0-9]*$", message = "The price should be a positive real number.") String price) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.genre = genre;
+        this.quantity = quantity;
+        this.price = price;
+    }
 
     public int getId() {
         return id;

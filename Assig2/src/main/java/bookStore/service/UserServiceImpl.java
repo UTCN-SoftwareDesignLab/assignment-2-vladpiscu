@@ -1,8 +1,8 @@
 package bookStore.service;
 
-import bookStore.dto.UserDto;
 import bookStore.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import bookStore.repository.UserRepository;
 
@@ -28,22 +28,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(UserDto user) {
-        User u = getUser(user);
-        return userRepository.save(u);
+    public User save(User user) {
+        user.setPassword((new BCryptPasswordEncoder()).encode(user.getPassword()));
+        return userRepository.save(user);
     }
 
     @Override
-    public User update(UserDto user) {
-        User u = getUser(user);
-        u.setId(user.getId());
-        return userRepository.save(u);
+    public User update(User user) {
+        user.setPassword((new BCryptPasswordEncoder()).encode(user.getPassword()));
+        return userRepository.save(user);
     }
 
     @Override
-    public void remove(UserDto user) {
-        User u = getUser(user);
-        userRepository.delete(u);
+    public void remove(User user) {
+        userRepository.delete(user);
     }
 
     @Override
@@ -54,9 +52,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public void removeAll() {
         userRepository.deleteAll();
-    }
-
-    private User getUser(UserDto user) {
-        return new User(user.getUsername(), user.getPassword(), user.getRole());
     }
 }

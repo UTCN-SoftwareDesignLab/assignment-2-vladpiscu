@@ -21,7 +21,7 @@
     </style>
 </head>
 <body>
-<a th:href="@{/logout}">Logout</a>
+<a th:href="@{/home-users}">Back</a>
 
 <h1>Books:</h1>
 
@@ -62,14 +62,27 @@
 
 <br/>
 
-<form th:action="@{/sellBook}" th:object="${bookDto}" method="post">
+<form th:action="@{/sellBook}" th:object="${information}" method="post">
     Id:
     <select name="id" id="id" >
-        <option th:each="book : ${books}" th:field="${bookDto.id}" th:value="${book.id}" th:text="${book.id}"></option>
+        <option th:each="book : ${allBooks}" th:value="${book.id}" th:text="${book.id}"></option>
     </select>
     Quantity:
     <input type="number" id="quantity" name="quantity"/>
     <input type="submit" class="button" name="Sell book" value="Sell book" />
+    <table th:if="${errors.size()!=0}">
+        <thead>
+        <tr>
+            <th>Errors</th>
+        </tr>
+        </thead>
+        <tr th:each="error : ${ errors }">
+            <td th:text="${ error }">Error</td>
+        </tr>
+        <tbody>
+
+        </tbody>
+    </table>
 </form>
 
 </body>
